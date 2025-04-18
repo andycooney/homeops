@@ -3,11 +3,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: devbu-io
+  name: cooney-online
 spec:
-  secretName: devbu-io-tls
+  secretName: cooney-online-tls
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: devbu.io
-  dnsNames: ["devbu.io", "*.devbu.io"]
+  commonName: cooney.online
+  dnsNames: ["cooney.online", "*.cooney.online"]

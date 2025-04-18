@@ -35,8 +35,8 @@ spec:
                 sabnzbd.default.svc,
                 sabnzbd.default.svc.cluster,
                 sabnzbd.default.svc.cluster.local,
-                sab.devbu.io,
-                sabnzbd.devbu.io
+                sab.cooney.online,
+                sabnzbd.cooney.online
             envFrom:
               - secretRef:
                   name: sabnzbd-secret
@@ -78,8 +78,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.devbu.io"
-          - sab.devbu.io
+          - "{{ .Release.Name }}.cooney.online"
+          - sab.cooney.online
         parentRefs:
           - name: internal
             namespace: kube-system

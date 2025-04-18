@@ -1,0 +1,16 @@
+machine:
+  network:
+    hostname: talos03
+    interfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:8c:a3:d0
+        mtu: 1500
+        dhcp: true
+        vip:
+          ip: 192.168.42.120
+  disks:
+    - device: /dev/sdb
+      partitions:
+        - mountpoint: /var/mnt/extra
+  install:
+    image: factory.talos.dev/installer/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:{{ ENV.TALOS_VERSION }}

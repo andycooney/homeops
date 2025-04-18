@@ -1,0 +1,75 @@
+2025-04-17 14:52:35,339:DEBUG:certbot._internal.main:certbot version: 4.0.0
+2025-04-17 14:52:35,339:DEBUG:certbot._internal.main:Location of certbot entry point: /opt/homebrew/bin/certbot
+2025-04-17 14:52:35,339:DEBUG:certbot._internal.main:Arguments: ['--config-dir', './bootstrap/cert', '--work-dir', './bootstrap/cert', '--logs-dir', './bootstrap/cert']
+2025-04-17 14:52:35,339:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#apache,PluginEntryPoint#manual,PluginEntryPoint#nginx,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2025-04-17 14:52:35,350:DEBUG:certbot._internal.log:Root logging level set at 30
+2025-04-17 14:52:35,351:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
+2025-04-17 14:52:35,494:DEBUG:certbot_apache._internal.configurator:Apache version is 2.4.62
+2025-04-17 14:52:35,702:WARNING:certbot_apache._internal.configurator:Could not find ssl_module; not disabling session tickets.
+2025-04-17 14:52:35,703:DEBUG:certbot_apache._internal.configurator:Encountered error:
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot_apache/_internal/configurator.py", line 402, in prepare
+    util.lock_dir_until_exit(self.options.server_root)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/util.py", line 241, in lock_dir_until_exit
+    _LOCKS[dir_path] = lock.lock_dir(dir_path)
+                       ~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 259, in lock_dir
+    return LockFile(os.path.join(dir_path, '.certbot.lock'))
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 45, in __init__
+    self.acquire()
+    ~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 60, in acquire
+    self._lock_mechanism.acquire()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 110, in acquire
+    fd = filesystem.open(self._path, os.O_CREAT | os.O_WRONLY, 0o600)
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/compat/filesystem.py", line 228, in open
+    return os.open(file_path, flags, mode)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/etc/apache2/.certbot.lock'
+2025-04-17 14:52:35,704:DEBUG:certbot._internal.plugins.disco:Other error:(PluginEntryPoint#apache): Unable to create a lock file in /etc/apache2. Are you running Certbot with sufficient privileges to modify your Apache configuration?
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot_apache/_internal/configurator.py", line 402, in prepare
+    util.lock_dir_until_exit(self.options.server_root)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/util.py", line 241, in lock_dir_until_exit
+    _LOCKS[dir_path] = lock.lock_dir(dir_path)
+                       ~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 259, in lock_dir
+    return LockFile(os.path.join(dir_path, '.certbot.lock'))
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 45, in __init__
+    self.acquire()
+    ~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 60, in acquire
+    self._lock_mechanism.acquire()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/lock.py", line 110, in acquire
+    fd = filesystem.open(self._path, os.O_CREAT | os.O_WRONLY, 0o600)
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/compat/filesystem.py", line 228, in open
+    return os.open(file_path, flags, mode)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/etc/apache2/.certbot.lock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/plugins/disco.py", line 112, in prepare
+    self._initialized.prepare()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot_apache/_internal/configurator.py", line 405, in prepare
+    raise errors.PluginError(
+    ...<2 lines>...
+        " Apache configuration?".format(self.options.server_root))
+certbot.errors.PluginError: Unable to create a lock file in /etc/apache2. Are you running Certbot with sufficient privileges to modify your Apache configuration?
+2025-04-17 14:52:35,705:DEBUG:certbot._internal.plugins.disco:No installation (PluginEntryPoint#nginx): Could not find a usable 'nginx' binary. Ensure nginx exists, the binary is executable, and your PATH is set correctly.
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot/_internal/plugins/disco.py", line 112, in prepare
+    self._initialized.prepare()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/certbot/4.0.0/libexec/lib/python3.13/site-packages/certbot_nginx/_internal/configurator.py", line 201, in prepare
+    raise errors.NoInstallationError(
+        "Could not find a usable 'nginx' binary. Ensure nginx exists, "
+        "the binary is executable, and your PATH is set correctly.")
+certbot.errors.NoInstallationError: Could not find a usable 'nginx' binary. Ensure nginx exists, the binary is executable, and your PATH is set correctly.
+2025-04-17 14:52:35,705:DEBUG:certbot._internal.plugins.selection:No candidate plugin

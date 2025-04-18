@@ -16,7 +16,7 @@ env:
 jobs:
   main:
     name: Schemas
-    runs-on: home-ops-runner
+    runs-on: homeops-runner
     permissions:
       contents: read
       packages: write

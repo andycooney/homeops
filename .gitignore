@@ -1,12 +1,45 @@
-/.private/
-/.task/
-/.venv/
-*.crt
+# Secrets
+*.pub
 *.key
-.decrypted~*
-.DS_Store
-Brewfile.lock.json
-Thumbs.db
-kubeconfig
+*.crt
+*.decrypted~*
 onepassword.env
+/age.key
+/cloudflare-tunnel.json
+/github-deploy.key
+/github-deploy.key.pub
+/github-push-token.txt
+# Template config files
+/cluster.yaml
+/nodes.yaml
+# Kubernetes
+kubeconfig
 talosconfig
+# Editors
+.vscode/
+# Ansible
+xanmanning.k3s*
+# Sops
+.decrypted~*
+# Misc.
+.DS_Store
+Thumbs.db
+bin
+/flux
+*.iso
+.temp*
+.private/
+/.private/
+.logs/
+/.task/
+.task/
+.env
+.envrc
+/.venv/
+.venv
+auth
+master.key
+*.snap
+setup/cluster/*cluster.yml
+Brewfile.lock.json
+.talos

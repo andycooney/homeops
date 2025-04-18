@@ -1,10 +1,10 @@
 ---
 originRequest:
-  originServerName: external.devbu.io
+  originServerName: external.cooney.online
 
 ingress:
-  - hostname: devbu.io
+  - hostname: cooney.online
     service: &svc https://cilium-gateway-external.kube-system.svc.cluster.local
-  - hostname: "*.devbu.io"
+  - hostname: "*.cooney.online"
     service: *svc
   - service: http_status:404

@@ -1,9 +1,16 @@
 machine:
   network:
-    hostname: k8s-1
+    hostname: talos01
+    interfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:56:89:8a
+        mtu: 1500
+        dhcp: true
+        vip:
+          ip: 192.168.42.120
   disks:
-    - device: /dev/disk/by-id/nvme-Corsair_MP600_MICRO_A828B442008B7C
+    - device: /dev/sdb
       partitions:
         - mountpoint: /var/mnt/extra
   install:
-    image: factory.talos.dev/installer/de3b865124c5616da8084826167f8c0b0fbc9b905b146290db797024e84097fc:{{ ENV.TALOS_VERSION }}
+    image: factory.talos.dev/installer/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:{{ ENV.TALOS_VERSION }}
