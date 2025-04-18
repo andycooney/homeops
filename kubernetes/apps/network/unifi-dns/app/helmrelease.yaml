@@ -63,7 +63,7 @@ spec:
     sources: ["gateway-httproute", "service"]
     txtOwnerId: main
     txtPrefix: k8s.main.
-    domainFilters: ["devbu.io"]
+    domainFilters: ["cooney.online"]
     serviceMonitor:
       enabled: true
     podAnnotations:

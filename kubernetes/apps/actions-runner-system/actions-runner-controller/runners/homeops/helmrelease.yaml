@@ -17,7 +17,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name home-ops-runner
+  name: &name homeops-runner
 spec:
   interval: 1h
   chartRef:
@@ -31,8 +31,8 @@ spec:
     remediation:
       retries: 3
   values:
-    githubConfigUrl: https://github.com/onedr0p/home-ops
-    githubConfigSecret: home-ops-runner-secret
+    githubConfigUrl: https://github.com/andycooney/homeops
+    githubConfigSecret: homeops-runner-secret
     minRunners: 1
     maxRunners: 3
     containerMode:

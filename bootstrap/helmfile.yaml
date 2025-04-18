@@ -83,6 +83,35 @@ releases:
         showlogs: true
     needs: ['cert-manager/cert-manager']
 
+  - name: onepassword
+    namespace: external-secrets
+    atomic: true
+    chart: 1password/connect
+    version: v1.17.0
+    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/external-secrets/onepassword/app/helm/values.yaml']
+    hooks:
+      - # Apply 1Password configuration
+        events: ['postsync']
+        command: kubectl
+        args:
+          - apply
+          - --namespace=external-secrets
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/external-secrets/onepassword/app/clustersecretstore.yaml
+        showlogs: true
+      - # Apply external secrets
+        events: ['postsync']
+        command: kubectl
+        args:
+          - apply
+          - --namespace=flux-system
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/flux-system/flux-instance/app/externalsecret-github.yaml
+        showlogs: true
+    needs: ['external-secrets/external-secrets']
+
   - name: flux-operator
     namespace: flux-system
     atomic: true

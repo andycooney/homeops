@@ -58,7 +58,7 @@ function apply_talos_config() {
 function bootstrap_talos() {
     log debug "Bootstrapping Talos"
 
-    if ! controller=$(talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | shuf -n 1) || [[ -z "${controller}" ]]; then
+    if ! controller=$(talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | head -n 1) || [[ -z "${controller}" ]]; then
         log error "No Talos controller found"
     fi
 
@@ -76,11 +76,11 @@ function bootstrap_talos() {
 function fetch_kubeconfig() {
     log debug "Fetching kubeconfig"
 
-    if ! controller=$(talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | shuf -n 1) || [[ -z "${controller}" ]]; then
+    if ! controller=$(talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | head -n 1) || [[ -z "${controller}" ]]; then
         log error "No Talos controller found"
     fi
 
-    if ! talosctl kubeconfig --nodes "${controller}" --force --force-context-name main "$(basename "${KUBECONFIG}")" &>/dev/null; then
+    if ! talosctl kubeconfig --nodes "${controller}" --force --force-context-name kubernetes "$(basename "${KUBECONFIG}")" &>/dev/null; then
         log error "Failed to fetch kubeconfig"
     fi
 
@@ -219,9 +219,9 @@ function main() {
     bootstrap_talos
     fetch_kubeconfig
 
-    # Apply resources and Helm releases
+    # # Apply resources and Helm releases
     wait_for_nodes
-    wipe_rook_disks
+    # wipe_rook_disks
     apply_crds
     apply_resources
     apply_helm_releases
