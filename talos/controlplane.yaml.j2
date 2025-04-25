@@ -7,11 +7,19 @@ machine:
   ca:
     crt: op://kubernetes/talos/MACHINE_CA_CRT
     key: op://kubernetes/talos/MACHINE_CA_KEY
-  certSANs: ["127.0.0.1", "192.168.42.120"]
+  certSANs:
+    - 127.0.0.1
+    - 192.168.42.120
+    - kube.cooney.site, talos.cooney.site
   kubelet:
     image: ghcr.io/siderolabs/kubelet:{{ ENV.KUBERNETES_VERSION }}
     extraConfig:
       serializeImagePulls: false
+    extraMounts:
+      - destination: /var/mnt/extra
+        type: bind
+        source: /var/mnt/extra
+        options: ["bind", "rshared", "rw"]
     defaultRuntimeSeccompProfileEnabled: true
     nodeIP:
       validSubnets:
@@ -23,16 +31,27 @@ machine:
       - 1.0.0.1
     disableSearchDomain: true
   install:
-    disk: /dev/sda
-    image: factory.talos.dev/installer/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:v1.9.5
     wipe: false
+    bootloader: true
+    extraKernelArgs:
+      - i915.enable_guc=2                   # Meteor Lake CPU / iGPU
+      - apparmor=0                          # Less security, faster puter
+      - init_on_alloc=0                     # Less security, faster puter
+      - init_on_free=0                      # Less security, faster puter
+      - intel_iommu=on                      # PCI Passthrough
+      - iommu=pt                            # PCI Passthrough
+      - mitigations=off                     # Less security, faster puter
+      - module_blacklist=igc                # Disable onboard NIC
+      - security=none                       # Less security, faster puter
+      - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
+      - talos.auditd.disabled=1             # Less security, faster puter
   files:
-    - content: |-
+    - # Spegel
+      op: create
+      path: /etc/cri/conf.d/20-customization.part
+      content: |
         [plugins."io.containerd.cri.v1.images"]
           discard_unpacked_layers = false
-      permissions: 0o644
-      path: /etc/cri/conf.d/20-customization.part
-      op: create
     - op: overwrite
       path: /etc/nfsmount.conf
       permissions: 0o644
@@ -50,9 +69,9 @@ machine:
   sysctls:
     fs.inotify.max_user_instances: "8192"
     fs.inotify.max_user_watches: "1048576"
-    net.core.rmem_max: "7500000"
-    net.core.wmem_max: "7500000"
     vm.nr_hugepages: 1024                  # PostgreSQL
+  sysfs:
+    devices.system.cpu.intel_pstate.hwp_dynamic_boost: 1
   features:
     rbac: true
     stableHostname: true
@@ -69,7 +88,14 @@ machine:
       enabled: true
       resolveMemberNames: true
       forwardKubeDNSToHost: false
+  udev:
+    rules:
+      - # Intel GPU
+        SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
   nodeLabels:
+    intel.feature.node.kubernetes.io/gpu: "true"
+    topology.kubernetes.io/region: main
+    topology.kubernetes.io/zone: m
     node.kubernetes.io/exclude-from-external-load-balancers: ""
 cluster:
   id: op://kubernetes/talos/CLUSTER_ID
@@ -85,6 +111,8 @@ cluster:
       - 10.42.0.0/16
     serviceSubnets:
       - 10.43.0.0/16
+  coreDNS:
+    disabled: true
   token: op://kubernetes/talos/CLUSTER_TOKEN
   secretboxEncryptionSecret: op://kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   ca:
@@ -140,12 +168,6 @@ cluster:
                   - maxSkew: 1
                     topologyKey: kubernetes.io/hostname
                     whenUnsatisfiable: ScheduleAnyway
-  discovery:
-    enabled: true
-    registries:
-      kubernetes:
-        disabled: true
-      service: {}
   etcd:
     ca:
       crt: op://kubernetes/talos/CLUSTER_ETCD_CA_CRT
@@ -154,6 +176,4 @@ cluster:
       listen-metrics-urls: http://0.0.0.0:2381
     advertisedSubnets:
       - 192.168.42.0/24
-  coreDNS:
-    disabled: true
   allowSchedulingOnControlPlanes: true

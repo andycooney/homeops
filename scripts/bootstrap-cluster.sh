@@ -221,7 +221,7 @@ function main() {
 
     # # Apply resources and Helm releases
     wait_for_nodes
-    # wipe_rook_disks
+    wipe_rook_disks
     apply_crds
     apply_resources
     apply_helm_releases

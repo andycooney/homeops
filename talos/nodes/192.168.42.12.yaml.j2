@@ -3,14 +3,16 @@ machine:
     hostname: talos02
     interfaces:
       - deviceSelector:
-          hardwareAddr: bc:24:11:b5:69:e2
+          hardwareAddr: 04:0e:3c:94:ac:ef
         mtu: 1500
         dhcp: true
         vip:
           ip: 192.168.42.120
   disks:
-    - device: /dev/sdb
+    - device: /dev/disk/by-id/nvme-CT1000P3SSD8_24514D33CAA3
       partitions:
         - mountpoint: /var/mnt/extra
   install:
-    image: factory.talos.dev/installer/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:{{ ENV.TALOS_VERSION }}
+    diskSelector:
+      model: CT500P1SSD8
+    image: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0:{{ ENV.TALOS_VERSION }}
