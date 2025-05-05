@@ -5,6 +5,7 @@
 *.decrypted~*
 onepassword.env
 /age.key
+/age.agekey
 /cloudflare-tunnel.json
 /github-deploy.key
 /github-deploy.key.pub
