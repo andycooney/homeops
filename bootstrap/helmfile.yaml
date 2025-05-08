@@ -63,7 +63,7 @@ releases:
           - -c
           - until kubectl get crd clustersecretstores.external-secrets.io &>/dev/null; do sleep 10; done
         showlogs: true
-    # needs: ['cert-manager/cert-manager']
+    needs: ['kube-system/coredns']
 
   - name: onepassword
     namespace: external-secrets
