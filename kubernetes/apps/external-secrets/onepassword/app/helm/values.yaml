@@ -4,6 +4,7 @@ connect:
   credentialsKey: 1passcredentialsjson
 operator:
   create: true
-  credentialsName: onepassword
-  credentialsKey: token
+  token:
+    name: onepassword
+    key: token
 serviceType: ClusterIP
